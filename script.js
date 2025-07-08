@@ -2,7 +2,7 @@ const output = document.getElementById("output");
 const input = document.getElementById("command");
 
 // Welcome message printed on load
-function showBlinkingWelcome(text, delay = 100) {
+function showBlinkingWelcome(text, delay = 50) {
   let index = 0;
   const welcomeLine = document.createElement('div');
   welcomeLine.classList.add('output-line');
