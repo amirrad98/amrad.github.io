@@ -21,32 +21,47 @@ function showBlinkingWelcome(text, delay = 50) {
       // Scroll to the bottom of the output
       window.scrollTo(0, document.body.scrollHeight);
       // Show the initial help message
-      output.innerHTML += '<div class="output-line">Type "help" to see what you can ask.</div>';
+      output.innerHTML += '<div class="output-line">Type "/help" to see what you can ask.</div>';
     }
   }, delay);
 }
 showBlinkingWelcome("Welcome to Amir Etminanrad’s terminal resume.");
-const commands = {
-  //q: how can I make the folliwing commands more interactive?
-  help: "Available commands: \n /help, \n /about, \n /experience, \n /education, \n /contact",
-  about: "I'm Amir, a Biochemistry student with a tech twist!",
-  experience: "Worked at UNBC, Lab Services, IT, and more...",
-  education: "UNBC – BSc in Biochem & Molecular Biology",
-  contact: "Email: amir@example.com | GitHub: @amirad"
+
+
+const directories = {
+  '/': ['about', 'contact', 'education', 'skills', 'interests'],
+  '/about': 'I am Amir Etminanrad.',
+  '/contact': 'Email: amir@example.com | GitHub: @amirad',
+  '/education': 'Studying Biochemistry and Molecular Biology at UNBC.',
+  '/skills': 'Teamwork, problem-solving, photography, 3D modeling, basic coding.',
+  '/interests': 'Tech, AI, outdoor adventures, soccer, fitness.'
 };
 
-input.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    const command = input.value.trim();
+input.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || !input.value.trim()) return;
+  const cmd = input.value.trim().toLowerCase();
+  output.innerHTML += `<div class="command-line">${currentDir} > ${cmd}</div>`;
 
-    // Show the command in green
-    output.innerHTML += `<div class="command-line">&gt; ${command}</div>`;
-
-    // Show the output in white
-    const response = commands[command] || "Command not found. Type 'help' to see available commands.";
-    output.innerHTML += `<div class="output-line">${response}</div>`;
-
-    input.value = "";
-    window.scrollTo(0, document.body.scrollHeight);
+  if (cmd === 'ls') {
+    const contents = Array.isArray(directories[currentDir]) ? directories[currentDir].join('  ') : '(no subdirectories)';
+    output.innerHTML += `<div class="output-line">${contents}</div>`;
+  } else if (cmd.startsWith('cd ')) {
+    const target = cmd.slice(3);
+    const newPath = currentDir === '/' ? `/${target}` : `${currentDir}/${target}`;
+    if (directories[newPath]) {
+      currentDir = newPath;
+    } else {
+      output.innerHTML += `<div class="output-line">No such directory: ${target}</div>`;
+    }
+  } else if (directories[currentDir] && typeof directories[currentDir] === 'string') {
+    output.innerHTML += `<div class="output-line">${directories[currentDir]}</div>`;
+  } else if (directories[`${currentDir}/${cmd}`]) {
+    output.innerHTML += `<div class="output-line">${directories[`${currentDir}/${cmd}`]}</div>`;
+  } else {
+    output.innerHTML += `<div class="output-line">Unknown command or file. Try 'ls' or 'cd [directory]'.</div>`;
   }
+
+  input.value = '';
+  window.scrollTo(0, document.body.scrollHeight);
 });
+
