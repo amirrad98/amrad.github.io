@@ -14,7 +14,18 @@ function showBlinkingWelcome(text, delay = 50) {
     if (index > text.length) {
       clearInterval(interval);
       welcomeLine.textContent = text; // Final display
-      output.innerHTML += '<div class="output-line">Type \"help\" to see what you can ask.</div>';
+      // q: how to add a blinking cursor effect?
+      welcomeLine.innerHTML += '<span class="blinking-cursor">_</span>';
+      // Scroll to the bottom of the output
+      window.scrollTo(0, document.body.scrollHeight);
+      // Show the initial help message
+      output.innerHTML += '<div class="output-line">Type "help" to see what you can ask.</div>';
+      // Focus the input field
+      input.focus();
+      // Add a blinking cursor effect to the input field
+      input.classList.add('blinking-cursor');
+      // Add a message to the output
+      output.innerHTML += '<div class="output-line">Type "help" to see what you can ask.</div>';
     }
   }, delay);
 }
