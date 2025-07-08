@@ -24,3 +24,10 @@ input {
   outline: none;
   width: 100%;
 }
+.command-line {
+  color: #00ff00; /* Green */
+}
+
+.output-line {
+  color: white; /* White */
+}
