@@ -4,6 +4,9 @@ body {
   font-family: monospace;
   margin: 0;
   padding: 20px;
+  text-align: left;
+  color: #00ff00;
+}
 }
 
 .terminal {
@@ -60,6 +63,4 @@ a:active {
 }
 h1, h2, h3 {
 // q: How can I make the x align left?
-  text-align: left;
-  color: #00ff00;
-}
+
