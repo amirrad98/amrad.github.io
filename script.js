@@ -12,12 +12,14 @@ const commands = {
 input.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     const command = input.value.trim();
-    output.innerHTML += `\n> ${command}\n`;
+    output.innerHTML += `<div class="command-line">> ${command}</div>`;
+
     if (commands[command]) {
-      output.innerHTML += `${commands[command]}\n`;
+      output.innerHTML += `<div class="output-line">${commands[command]}</div>`;
     } else {
-      output.innerHTML += `Command not found. Type 'help' to see available commands.\n`;
+      output.innerHTML += `<div class="output-line">Command not found. Type 'help' to see available commands.</div>`;
     }
+
     input.value = "";
     window.scrollTo(0, document.body.scrollHeight);
   }
