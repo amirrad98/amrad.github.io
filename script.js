@@ -28,7 +28,7 @@ showBlinkingWelcome("Welcome to Amir Etminanrad’s terminal resume.");
 
 
 const directories = {
-  '/': ['about', 'contact', 'education', 'skills', 'interests'],
+  '/': ['about', 'contact', 'education', 'skills ', 'interests'],
   '/about': ['bio', 'location'],
   '/about/bio': 'I am Amir Etminanrad, a biochemistry student with a passion for technology.',
   '/about/location': 'Currently based in Canada.',
@@ -45,6 +45,7 @@ const directories = {
   '/interests/tech': 'AI, automation, Raspberry Pi projects.'
 };
 
+let currentDir = '/';
 function enableCommandHandler() {
   input.addEventListener('keydown', e => {
     if (e.key !== 'Enter' || !input.value.trim()) return;
