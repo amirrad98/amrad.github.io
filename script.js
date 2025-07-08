@@ -1,7 +1,8 @@
 const output = document.getElementById("output");
 const input = document.getElementById("command");
 //q: make the font size bigger
-input.style.fontSize = "16px"; // Increase font size for input  
+input.style.fontSize = "15px"; // Increase font size for input
+output.style.fontSize = "16px"; // Increase font size for output 
 // Welcome message printed on load
 function showBlinkingWelcome(text, delay = 50) {
   let index = 0;
