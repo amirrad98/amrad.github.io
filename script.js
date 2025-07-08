@@ -1,6 +1,9 @@
 const output = document.getElementById("output");
 const input = document.getElementById("command");
 
+// Welcome message printed on load
+output.innerHTML += '<div class="output-line">Welcome to Amir Etminanrad’s terminal resume.<br>Type \'help\' to see what you can ask.</div>';
+
 const commands = {
   help: "Available commands: help, about, experience, education, contact",
   about: "I'm Amir, a Biochemistry student with a tech twist!",
