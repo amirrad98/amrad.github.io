@@ -20,12 +20,6 @@ function showBlinkingWelcome(text, delay = 50) {
       window.scrollTo(0, document.body.scrollHeight);
       // Show the initial help message
       output.innerHTML += '<div class="output-line">Type "help" to see what you can ask.</div>';
-      // Focus the input field
-      input.focus();
-      // Add a blinking cursor effect to the input field
-      input.classList.add('blinking-cursor');
-      // Add a message to the output
-      output.innerHTML += '<div class="output-line">Type "help" to see what you can ask.</div>';
     }
   }, delay);
 }
