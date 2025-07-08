@@ -2,8 +2,24 @@ const output = document.getElementById("output");
 const input = document.getElementById("command");
 
 // Welcome message printed on load
-output.innerHTML += '<div class="output-line">Welcome to Amir Etminanrad’s terminal resume.<br>Type \'help\' to see what you can ask.</div>';
+function showBlinkingWelcome(text, delay = 100) {
+  let index = 0;
+  const welcomeLine = document.createElement('div');
+  welcomeLine.classList.add('output-line');
+  output.appendChild(welcomeLine);
 
+  const interval = setInterval(() => {
+    welcomeLine.textContent = text.substring(0, index) + (index % 2 === 0 ? '_' : ' ');
+    index++;
+    if (index > text.length) {
+      clearInterval(interval);
+      welcomeLine.textContent = text; // Final display
+      output.innerHTML += '<div class="output-line">Type \"help\" to see what you can ask.</div>';
+    }
+  }, delay);
+}
+
+showBlinkingWelcome("Welcome to Amir Etminanrad’s terminal resume.");
 const commands = {
   help: "Available commands: help, about, experience, education, contact",
   about: "I'm Amir, a Biochemistry student with a tech twist!",
