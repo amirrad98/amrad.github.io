@@ -1,9 +1,9 @@
 body {
   background: black;
-  color: #00ff00;
+  color: white;
   font-family: monospace;
-  padding: 20px;
   margin: 0;
+  padding: 20px;
 }
 
 .terminal {
@@ -11,8 +11,13 @@ body {
   margin: auto;
 }
 
+.prompt {
+  color: #00ff00;
+}
+
 .input-line {
   display: flex;
+  color: #00ff00;
 }
 
 input {
@@ -24,10 +29,11 @@ input {
   outline: none;
   width: 100%;
 }
+
 .command-line {
-  color: #00ff00; /* Green */
+  color: #00ff00;
 }
 
 .output-line {
-  color: white; /* White */
+  color: white;
 }
