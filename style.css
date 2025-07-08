@@ -37,3 +37,24 @@ input {
 .output-line {
   color: white;
 }
+pre {
+  white-space: pre;
+  font-family: monospace;
+  line-height: 1.1;
+  font-size: 12px;
+  color: white;
+}
+a {
+  color: #00ff00;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:visited {
+  color: #00ff00;
+}
+a:active {
+  color: #00ff00;
+}
+h1, h2, h3 {
