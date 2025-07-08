@@ -21,14 +21,14 @@ function showBlinkingWelcome(text, delay = 50) {
       // Scroll to the bottom of the output
       window.scrollTo(0, document.body.scrollHeight);
       // Show the initial help message
-      output.innerHTML += '<div class="output-line">Type "/help" to see what you can ask.</div>';
+      output.innerHTML += '<div class="output-line">Type "help" to see what you can ask.</div>';
     }
   }, delay);
 }
-
 showBlinkingWelcome("Welcome to Amir Etminanrad’s terminal resume.");
 const commands = {
-  /help: "Available commands: \n /help, \n /about, \n /experience, \n /education, \n /contact",
+  //q: how can I make the folliwing commands more interactive?
+  help: "Available commands: \n /help, \n /about, \n /experience, \n /education, \n /contact",
   about: "I'm Amir, a Biochemistry student with a tech twist!",
   experience: "Worked at UNBC, Lab Services, IT, and more...",
   education: "UNBC – BSc in Biochem & Molecular Biology",
