@@ -1,5 +1,6 @@
 const output = document.getElementById("output");
 const input = document.getElementById("command");
+//q: make the font size bigger
 
 // Welcome message printed on load
 function showBlinkingWelcome(text, delay = 50) {
