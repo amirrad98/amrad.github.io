@@ -1,0 +1,26 @@
+body {
+  background: black;
+  color: #00ff00;
+  font-family: monospace;
+  padding: 20px;
+  margin: 0;
+}
+
+.terminal {
+  max-width: 800px;
+  margin: auto;
+}
+
+.input-line {
+  display: flex;
+}
+
+input {
+  background: black;
+  border: none;
+  color: #00ff00;
+  font-family: monospace;
+  font-size: 1em;
+  outline: none;
+  width: 100%;
+}
