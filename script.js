@@ -4,7 +4,9 @@ const input = document.getElementById("command");
 input.style.fontSize = "15px"; // Increase font size for input
 output.style.fontSize = "16px"; // Increase font size for output 
 // Welcome message printed on load
-function showBlinkingWelcome(text, delay = 50) {
+
+
+function showBlinkingWelcome(text, delay = 100) {
   let index = 0;
   const welcomeLine = document.createElement('div');
   welcomeLine.classList.add('output-line');
@@ -16,15 +18,12 @@ function showBlinkingWelcome(text, delay = 50) {
     if (index > text.length) {
       clearInterval(interval);
       welcomeLine.textContent = text; // Final display
-      // q: how to add a blinking cursor effect?
-      welcomeLine.innerHTML += '<span class="blinking-cursor">_</span>';
-      // Scroll to the bottom of the output
-      window.scrollTo(0, document.body.scrollHeight);
-      // Show the initial help message
-      output.innerHTML += '<div class="output-line">Type "/help" to see what you can ask.</div>';
+      output.innerHTML += '<div class="output-line">Type "help" to see what you can ask.</div>';
+      enableCommandHandler(); // Enable input now
     }
   }, delay);
 }
+
 showBlinkingWelcome("Welcome to Amir Etminanrad’s terminal resume.");
 
 
@@ -46,34 +45,34 @@ const directories = {
   '/interests/tech': 'AI, automation, Raspberry Pi projects.'
 };
 
-input.addEventListener('keydown', e => {
-  if (e.key !== 'Enter' || !input.value.trim()) return;
-  const cmd = input.value.trim().toLowerCase();
-  output.innerHTML += `<div class="command-line">${currentDir} > ${cmd}</div>`;
+function enableCommandHandler() {
+  input.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || !input.value.trim()) return;
+    const cmd = input.value.trim().toLowerCase();
+    output.innerHTML += `<div class="command-line">${currentDir} > ${cmd}</div>`;
 
-  if (cmd === 'ls') {
-    const contents = Array.isArray(directories[currentDir]) ? directories[currentDir].join('  ') : '(no subdirectories)';
-    output.innerHTML += `<div class="output-line">${contents}</div>`;
-  } else if (cmd === 'cd ..') {
-    if (currentDir !== '/') {
-      currentDir = currentDir.substring(0, currentDir.lastIndexOf('/')) || '/';
-    }
-  } else if (cmd.startsWith('cd ')) {
-    const target = cmd.slice(3);
-    const newPath = currentDir === '/' ? `/${target}` : `${currentDir}/${target}`;
-    if (directories[newPath]) {
-      currentDir = newPath;
+    if (cmd === 'ls') {
+      const contents = Array.isArray(directories[currentDir]) ? directories[currentDir].join('  ') : '(no subdirectories)';
+      output.innerHTML += `<div class="output-line">${contents}</div>`;
+    } else if (cmd === 'cd ..') {
+      if (currentDir !== '/') {
+        currentDir = currentDir.substring(0, currentDir.lastIndexOf('/')) || '/';
+      }
+    } else if (cmd.startsWith('cd ')) {
+      const target = cmd.slice(3);
+      const newPath = currentDir === '/' ? `/${target}` : `${currentDir}/${target}`;
+      if (directories[newPath]) {
+        currentDir = newPath;
+      } else {
+        output.innerHTML += `<div class="output-line">No such directory: ${target}</div>`;
+      }
+    } else if (typeof directories[`${currentDir}/${cmd}`] === 'string') {
+      output.innerHTML += `<div class="output-line">${directories[`${currentDir}/${cmd}`]}</div>`;
     } else {
-      output.innerHTML += `<div class="output-line">No such directory: ${target}</div>`;
+      output.innerHTML += `<div class="output-line">Unknown command or file. Try 'ls', 'cd [dir]', or 'cd ..'</div>`;
     }
-  } else if (typeof directories[currentDir] === 'string') {
-    output.innerHTML += `<div class="output-line">${directories[currentDir]}</div>`;
-  } else if (typeof directories[`${currentDir}/${cmd}`] === 'string') {
-    output.innerHTML += `<div class="output-line">${directories[`${currentDir}/${cmd}`]}</div>`;
-  } else {
-    output.innerHTML += `<div class="output-line">Unknown command or file. Try 'ls', 'cd [dir]', or 'cd ..'</div>`;
-  }
 
-  input.value = '';
-  window.scrollTo(0, document.body.scrollHeight);
-});
+    input.value = '';
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+}
