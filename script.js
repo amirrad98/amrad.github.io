@@ -30,11 +30,20 @@ showBlinkingWelcome("Welcome to Amir Etminanrad’s terminal resume.");
 
 const directories = {
   '/': ['about', 'contact', 'education', 'skills', 'interests'],
-  '/about': 'I am Amir Etminanrad.',
-  '/contact': 'Email: amir@example.com | GitHub: @amirad',
-  '/education': 'Studying Biochemistry and Molecular Biology at UNBC.',
-  '/skills': 'Teamwork, problem-solving, photography, 3D modeling, basic coding.',
-  '/interests': 'Tech, AI, outdoor adventures, soccer, fitness.'
+  '/about': ['bio', 'location'],
+  '/about/bio': 'I am Amir Etminanrad, a biochemistry student with a passion for technology.',
+  '/about/location': 'Currently based in Canada.',
+  '/contact': ['email', 'github'],
+  '/contact/email': 'amir@example.com',
+  '/contact/github': 'GitHub: @amirad',
+  '/education': ['undergrad'],
+  '/education/undergrad': 'Biochemistry and Molecular Biology at UNBC.',
+  '/skills': ['soft', 'technical'],
+  '/skills/soft': 'Teamwork, communication, problem-solving.',
+  '/skills/technical': 'Photography, 3D modeling, basic coding.',
+  '/interests': ['sports', 'tech'],
+  '/interests/sports': 'Soccer, rock climbing, fitness.',
+  '/interests/tech': 'AI, automation, Raspberry Pi projects.'
 };
 
 input.addEventListener('keydown', e => {
@@ -45,6 +54,10 @@ input.addEventListener('keydown', e => {
   if (cmd === 'ls') {
     const contents = Array.isArray(directories[currentDir]) ? directories[currentDir].join('  ') : '(no subdirectories)';
     output.innerHTML += `<div class="output-line">${contents}</div>`;
+  } else if (cmd === 'cd ..') {
+    if (currentDir !== '/') {
+      currentDir = currentDir.substring(0, currentDir.lastIndexOf('/')) || '/';
+    }
   } else if (cmd.startsWith('cd ')) {
     const target = cmd.slice(3);
     const newPath = currentDir === '/' ? `/${target}` : `${currentDir}/${target}`;
@@ -53,15 +66,14 @@ input.addEventListener('keydown', e => {
     } else {
       output.innerHTML += `<div class="output-line">No such directory: ${target}</div>`;
     }
-  } else if (directories[currentDir] && typeof directories[currentDir] === 'string') {
+  } else if (typeof directories[currentDir] === 'string') {
     output.innerHTML += `<div class="output-line">${directories[currentDir]}</div>`;
-  } else if (directories[`${currentDir}/${cmd}`]) {
+  } else if (typeof directories[`${currentDir}/${cmd}`] === 'string') {
     output.innerHTML += `<div class="output-line">${directories[`${currentDir}/${cmd}`]}</div>`;
   } else {
-    output.innerHTML += `<div class="output-line">Unknown command or file. Try 'ls' or 'cd [directory]'.</div>`;
+    output.innerHTML += `<div class="output-line">Unknown command or file. Try 'ls', 'cd [dir]', or 'cd ..'</div>`;
   }
 
   input.value = '';
   window.scrollTo(0, document.body.scrollHeight);
 });
-
