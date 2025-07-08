@@ -47,6 +47,7 @@ pre {
   font-size: 11px;
   color: white;
   overflow-x: auto;
+  margin: 0;
 }
 a {
   color: #00ff00;
