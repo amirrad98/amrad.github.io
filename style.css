@@ -35,10 +35,16 @@ input {
 
 .command-line {
   color: #00ff00;
+  margin: 8px 0;
+  padding: 4px 0;
 }
 
 .output-line {
   color: white;
+  margin: 8px 0;
+  padding: 4px 0;
+  font-family: monospace;
+  white-space: pre;
 }
 pre {
   white-space: pre;

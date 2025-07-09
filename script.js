@@ -28,7 +28,7 @@ showBlinkingWelcome("Welcome to Amir Etminanrad’s terminal resume.");
 
 
 const directories = {
-  '/': ['about', 'contact', 'education', 'skills ', 'interests'],
+  '/': ['about', 'contact', 'education', 'skills', 'interests'],
   '/about': ['bio', 'location'],
   '/about/bio': 'I am Amir Etminanrad, a biochemistry student with a passion for technology.',
   '/about/location': 'Currently based in Canada.',
@@ -53,7 +53,9 @@ function enableCommandHandler() {
     output.innerHTML += `<div class="command-line">${currentDir} > ${cmd}</div>`;
 
     if (cmd === 'ls') {
-      const contents = Array.isArray(directories[currentDir]) ? directories[currentDir].join('  ') : '(no subdirectories)';
+      const contents = Array.isArray(directories[currentDir]) 
+        ? directories[currentDir].map(item => item.padEnd(15)).join('') 
+        : '(no subdirectories)';
       output.innerHTML += `<div class="output-line">${contents}</div>`;
     } else if (cmd === 'cd ..') {
       if (currentDir !== '/') {
