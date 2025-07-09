@@ -49,28 +49,49 @@ let currentDir = '/';
 function enableCommandHandler() {
   input.addEventListener('keydown', e => {
     if (e.key !== 'Enter' || !input.value.trim()) return;
-    const cmd = input.value.trim().toLowerCase();
+    const cmd = input.value.trim();
     output.innerHTML += `<div class="command-line">${currentDir} > ${cmd}</div>`;
+    const lowerCmd = cmd.toLowerCase();
 
-    if (cmd === 'ls') {
-      const contents = Array.isArray(directories[currentDir]) 
-        ? directories[currentDir].map(item => item.padEnd(15)).join('') 
+    if (lowerCmd === 'ls') {
+      const contents = Array.isArray(directories[currentDir])
+        ? directories[currentDir].join('    ')
         : '(no subdirectories)';
       output.innerHTML += `<div class="output-line">${contents}</div>`;
-    } else if (cmd === 'cd ..') {
+    } else if (lowerCmd === 'cd ..') {
       if (currentDir !== '/') {
-        currentDir = currentDir.substring(0, currentDir.lastIndexOf('/')) || '/';
+        const parts = currentDir.split('/').filter(Boolean);
+        parts.pop();
+        currentDir = '/' + parts.join('/');
+        if (currentDir === '') currentDir = '/';
       }
-    } else if (cmd.startsWith('cd ')) {
-      const target = cmd.slice(3);
-      const newPath = currentDir === '/' ? `/${target}` : `${currentDir}/${target}`;
-      if (directories[newPath]) {
+    } else if (lowerCmd.startsWith('cd ')) {
+      const target = cmd.slice(3).trim();
+      let newPath;
+      if (target.startsWith('/')) {
+        newPath = target;
+      } else {
+        newPath = currentDir === '/' ? `/${target}` : `${currentDir}/${target}`;
+      }
+      if (directories[newPath] && Array.isArray(directories[newPath])) {
         currentDir = newPath;
+      } else if (directories[newPath] && typeof directories[newPath] === 'string') {
+        output.innerHTML += `<div class="output-line">${directories[newPath]}</div>`;
       } else {
         output.innerHTML += `<div class="output-line">No such directory: ${target}</div>`;
       }
-    } else if (typeof directories[`${currentDir}/${cmd}`] === 'string') {
+    } else if (directories[`${currentDir}/${cmd}`] && typeof directories[`${currentDir}/${cmd}`] === 'string') {
       output.innerHTML += `<div class="output-line">${directories[`${currentDir}/${cmd}`]}</div>`;
+    } else if (directories[currentDir] && Array.isArray(directories[currentDir]) && directories[currentDir].includes(cmd)) {
+      // If user types a directory name, treat as 'cd'
+      const newPath = currentDir === '/' ? `/${cmd}` : `${currentDir}/${cmd}`;
+      if (directories[newPath] && Array.isArray(directories[newPath])) {
+        currentDir = newPath;
+      } else if (directories[newPath] && typeof directories[newPath] === 'string') {
+        output.innerHTML += `<div class="output-line">${directories[newPath]}</div>`;
+      } else {
+        output.innerHTML += `<div class="output-line">No such directory or file: ${cmd}</div>`;
+      }
     } else {
       output.innerHTML += `<div class="output-line">Unknown command or file. Try 'ls', 'cd [dir]', or 'cd ..'</div>`;
     }
